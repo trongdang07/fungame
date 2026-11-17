@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="theme-color" content="#0a0c18">
-<title>ĐÊM CHÁY PHỐ · Bộ bài 60 lá</title>
+<title>Pick A Card</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@500;700;800;900&display=swap" rel="stylesheet">
@@ -16,6 +16,7 @@ body{display:flex;flex-direction:column;overflow-x:hidden;user-select:none;-webk
 .left{color:var(--muted);font-size:13px;font-weight:700}
 .gear{display:grid;place-items:center;width:44px;height:44px;border-radius:12px;border:1px solid var(--line);background:var(--panel);text-decoration:none;font-size:20px}
 .rules-btn{min-height:44px;padding:0 13px;border-radius:12px;border:1px solid var(--line);background:var(--panel);font-weight:800;font-size:13px}
+.invite-btn{min-height:44px;padding:0 13px;border-radius:12px;border:1px solid #4c5bc0;background:#1b2450;color:#dfe4ff;font-weight:800;font-size:13px}
 main{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;padding:0 16px max(16px,env(safe-area-inset-bottom))}
 .stage{--cw:max(150px,min(74vw,320px,calc((100dvh - 300px)*.714)));width:var(--cw);height:calc(var(--cw)*1.4);position:relative;margin:6px 0 4px;--c:#aab}
 .pile,.shuffle{position:absolute;inset:0}
@@ -64,11 +65,17 @@ dialog.rules{width:min(560px,94vw);max-height:90dvh;border:1px solid #5663b3;bor
 dialog.rules::backdrop{background:#030612d0;backdrop-filter:blur(5px)}
 .rules-body{padding:22px;overflow:auto}.rules-body h2{margin:0 0 6px;font-size:21px}.rules-body h3{margin:18px 0 6px;font-size:15px;color:#dfe4ff}.rules-body p{margin:0;color:var(--muted);font-size:13px}.rules-body ol{margin:8px 0 0;padding-left:22px;color:var(--muted);font-size:13px}.rules-body li{margin:6px 0}.theme-rules{display:grid;gap:8px;margin-top:8px}.theme-rules div{padding:9px 11px;border:1px solid var(--line);border-left:4px solid var(--c);border-radius:10px;background:#0d1230;font-size:13px}.theme-rules b{display:block;color:var(--ink);margin-bottom:2px}
 .rules-foot{display:flex;justify-content:flex-end;margin-top:20px}
+.qr-card{width:min(360px,92vw);border:1px solid #5663b3;border-radius:18px;background:#10152d;color:var(--ink);padding:22px;box-shadow:0 20px 70px #000c;text-align:center}
+.qr-card::backdrop{background:#030612d0;backdrop-filter:blur(5px)}
+.qr-card h2{margin:0 0 6px;font-size:21px}.qr-card p{margin:0;color:var(--muted);font-size:13px}
+.qr-image{display:block;width:220px;height:220px;margin:18px auto;border-radius:12px;background:#fff;padding:10px}
+.qr-actions{display:flex;gap:8px;justify-content:center;flex-wrap:wrap}.qr-actions .btn{flex:1;min-width:120px}
 </style>
 </head>
 <body>
 <header class="top">
-  <h1 class="logo">ĐÊM <b>CHÁY PHỐ</b></h1>
+  <button class="invite-btn" id="invite-open" type="button">Mời bạn bằng QR</button>
+  <h1 class="logo">PICK <b>A CARD</b></h1>
   <span class="left" id="left" aria-live="polite"></span>
   <button class="rules-btn" id="rules-open" type="button">📖 Luật chơi</button>
   <a class="gear" href="setup.html" aria-label="Cài đặt bộ bài" title="Cài đặt">⚙</a>
@@ -113,6 +120,15 @@ dialog.rules::backdrop{background:#030612d0;backdrop-filter:blur(5px)}
     <h3>Lưu ý</h3>
     <p>Lá đã rút sẽ không lặp lại trong cùng một ván. Khi hết bài, chọn “Xáo lại” để bắt đầu vòng mới.</p>
     <div class="rules-foot"><button class="btn primary" id="rules-close" type="button">Đã hiểu</button></div>
+  </div>
+</dialog>
+<dialog class="qr-card" id="invite-dialog" aria-labelledby="invite-title">
+  <h2 id="invite-title">Mời bạn vào chơi</h2>
+  <p>Quét mã QR này để mở đúng trò chơi trên thiết bị của bạn.</p>
+  <img class="qr-image" id="invite-qr" alt="Mã QR để mời bạn vào chơi">
+  <div class="qr-actions">
+    <button class="btn primary" id="invite-copy" type="button">Sao chép liên kết</button>
+    <button class="btn ghost" id="invite-close" type="button">Đóng</button>
   </div>
 </dialog>
 <div id="toast" role="status"></div>
@@ -278,6 +294,17 @@ $('shuf').addEventListener('click',shuffle);
 $('rules-open').addEventListener('click',()=>rules.showModal());
 $('rules-close').addEventListener('click',()=>rules.close());
 rules.addEventListener('click',e=>{if(e.target===rules)rules.close()});
+const inviteDialog=$('invite-dialog'), inviteUrl=location.href.split('#')[0], inviteQr=$('invite-qr');
+function showToast(text){const toast=$('toast');toast.textContent=text;toast.classList.add('show');setTimeout(()=>toast.classList.remove('show'),2200)}
+$('invite-open').addEventListener('click',()=>{
+  inviteQr.src='https://api.qrserver.com/v1/create-qr-code/?size=440x440&margin=12&data='+encodeURIComponent(inviteUrl);
+  inviteDialog.showModal();
+});
+$('invite-close').addEventListener('click',()=>inviteDialog.close());
+inviteDialog.addEventListener('click',e=>{if(e.target===inviteDialog)inviteDialog.close()});
+$('invite-copy').addEventListener('click',async()=>{
+  try{await navigator.clipboard.writeText(inviteUrl);showToast('Đã sao chép liên kết mời')}catch(e){showToast('Không thể sao chép tự động')}
+});
 function stageTap(){if(state==='ready')draw();else if(state==='back')flip();else if(state==='empty')shuffle()}
 pile.addEventListener('click',stageTap);
 pile.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();stageTap()}});
