@@ -1,0 +1,22 @@
+:root{color-scheme:dark;--bg:#0a0c18;--panel:#12162b;--panel2:#1a2040;--line:#2b3360;--ink:#f4f6ff;--muted:#9aa4c8;--accent:#ff4fc3;
+--deep:#7b8cff;--funny:#ffb23f;--friends:#3fd9a0;--challenge:#ff5a73}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;min-height:100vh;min-height:100dvh;background:radial-gradient(ellipse 70% 40% at 0% 0%,#4a1d7040,transparent 70%),radial-gradient(ellipse 60% 50% at 100% 100%,#0a4a6040,transparent 70%),var(--bg);color:var(--ink);font:500 15px/1.5 'Be Vietnam Pro',system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;-webkit-tap-highlight-color:transparent}
+button,input,select,textarea{font:inherit;color:inherit}
+button{cursor:pointer}
+a{color:inherit}
+.hidden,[hidden]{display:none!important}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+:focus-visible,label:focus-within{outline:2px solid #ffe08a;outline-offset:3px}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:44px;padding:10px 18px;border-radius:12px;border:1px solid var(--line);background:var(--panel2);font-weight:700;font-size:14px;text-decoration:none;position:relative;transition:transform .15s,filter .15s,background .2s}
+.btn:hover:not(:disabled){filter:brightness(1.12)}
+.btn:active:not(:disabled){transform:translateY(2px)}
+.btn:disabled{opacity:.45;cursor:not-allowed}
+.btn.primary{background:var(--accent);border-color:var(--accent);color:#1b0a18}
+.btn.ghost{background:transparent}
+.btn.danger{color:#ffb9c4;border-color:#8f3a4e;background:#3a1a2870}
+.btn.sm{min-height:36px;padding:6px 12px;font-size:13px;border-radius:10px}
+#toast{position:fixed;z-index:99;left:50%;bottom:max(20px,env(safe-area-inset-bottom));transform:translate(-50%,30px);background:#1c2340;border:1px solid #6e7bd0;border-radius:12px;box-shadow:0 12px 40px #000b;padding:12px 18px;max-width:min(520px,92vw);opacity:0;pointer-events:none;transition:.22s;font-size:13px}
+#toast.show{transform:translate(-50%,0);opacity:1}
+@media(prefers-reduced-motion:reduce){*,*:before,*:after{transition-duration:.01ms!important;animation-duration:.01ms!important}}

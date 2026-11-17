@@ -1,0 +1,250 @@
+<!doctype html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#0a0c18">
+<title>Cài đặt bộ bài · ĐÊM CHÁY PHỐ</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@500;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+<style>
+.wrap{max-width:860px;margin:auto;padding:max(14px,env(safe-area-inset-top)) 16px 90px}
+.bar{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:14px}
+.bar h1{margin:0;font:900 20px/1.2 'Be Vietnam Pro',sans-serif;flex:1;min-width:150px}
+.total{font-weight:800;font-size:13px;color:var(--muted)}
+.total.off{color:#ffd37a}
+.tabs{display:flex;gap:8px;overflow-x:auto;padding:2px 0 12px;scrollbar-width:thin}
+.tab{flex:0 0 auto;display:flex;align-items:center;gap:8px;min-height:44px;padding:8px 14px;border-radius:12px;border:1px solid var(--line);background:var(--panel);font-weight:800;font-size:14px}
+.tab i{width:10px;height:10px;border-radius:50%;background:var(--c,#aab)}
+.tab small{color:var(--muted);font-weight:700}
+.tab[aria-selected=true]{background:var(--c,var(--panel2));color:#0b0e1f;border-color:var(--c,var(--line))}
+.tab[aria-selected=true] i{background:#0b0e1f}.tab[aria-selected=true] small{color:#0b0e1fb0}
+.sec{background:var(--panel);border:1px solid var(--line);border-radius:18px;padding:18px;margin-bottom:16px}
+.sec h2{margin:0 0 4px;font-size:17px;font-weight:800}
+.help{margin:0 0 14px;color:var(--muted);font-size:13px}
+.row{display:flex;gap:14px;align-items:center;flex-wrap:wrap}
+.btns{display:flex;gap:8px;flex-wrap:wrap}
+.prev{width:96px;aspect-ratio:5/7;border-radius:10px;overflow:hidden;border:2px solid var(--c);background:repeating-linear-gradient(135deg,var(--c) 0 8px,color-mix(in srgb,var(--c) 75%,#000) 8px 16px);display:grid;place-items:center;flex:none}
+.prev img{width:100%;height:100%;object-fit:cover}
+.prev span{background:#0b0e1f;color:var(--c);font-weight:900;font-size:12px;padding:5px 8px;border-radius:8px}
+.drop{display:block;border:1.5px dashed #46548f;border-radius:14px;background:#0e1330;padding:16px;text-align:center;cursor:pointer;position:relative}
+.drop strong{display:block}.drop span{font-size:12px;color:var(--muted)}
+.drop:hover{border-color:var(--c)}
+textarea,select{width:100%;background:#080b1c;border:1px solid #3a4580;border-radius:12px;padding:12px;outline:0}
+textarea{min-height:92px;resize:vertical;line-height:1.5}
+textarea:focus,select:focus{border-color:var(--c,#8fa0ff)}
+label.f{display:block;font-weight:700;font-size:13px;margin:14px 0 6px}
+.prog{font-size:12px;color:var(--muted);margin:8px 0 0;min-height:18px}
+.list-h{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:12px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:10px}
+.tile{border:1px solid var(--line);border-radius:12px;background:#0d1230;overflow:hidden;display:flex;flex-direction:column}
+.tile .th{aspect-ratio:5/7;display:grid;place-items:center;padding:10px;background:linear-gradient(180deg,color-mix(in srgb,var(--c) 22%,#0b0e1f),#0b0e1f 70%);font-size:12.5px;font-weight:700;text-align:center;line-height:1.35;overflow:hidden}
+.tile .th img{width:100%;height:100%;object-fit:contain;display:block}
+.tile .th p{margin:0;display:-webkit-box;-webkit-line-clamp:8;-webkit-box-orient:vertical;overflow:hidden}
+.tile .tb{display:flex;gap:6px;padding:8px}.tile .tb .btn{flex:1;padding:6px}
+.empty{color:var(--muted);text-align:center;padding:22px 8px;font-size:14px}
+dialog{width:min(480px,94vw);max-height:92dvh;border:1px solid #5663b3;border-radius:18px;background:#10152d;color:var(--ink);padding:0;box-shadow:0 20px 70px #000c}
+dialog::backdrop{background:#030612d0;backdrop-filter:blur(5px)}
+dialog form{padding:20px}
+dialog h2{margin:0 0 4px;font-size:18px}
+.cur{display:flex;gap:12px;align-items:center;margin-top:6px}
+.cur .prev{width:70px}
+.chk{display:flex;gap:8px;align-items:center;font-size:13px;margin-top:8px;color:var(--muted)}
+.foot{display:flex;gap:8px;justify-content:space-between;margin-top:20px;flex-wrap:wrap}
+.sum{display:grid;gap:8px;margin:0 0 16px;padding:0;list-style:none}
+.sum li{display:flex;justify-content:space-between;align-items:center;background:#0d1230;border:1px solid var(--line);border-radius:12px;padding:10px 14px;font-weight:700}
+.sum li span:first-child{display:flex;align-items:center;gap:8px}
+.sum i{width:10px;height:10px;border-radius:50%;background:var(--c)}
+.warn{background:#3b2f0e;border:1px solid #8a6b1c;color:#ffe3a1;border-radius:12px;padding:10px 14px;font-size:13px;margin-bottom:14px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="bar">
+    <a class="btn sm" href="index.html">← Về trò chơi</a>
+    <h1>Cài đặt bộ bài</h1>
+    <span class="total" id="total"></span>
+  </div>
+  <div id="warn" class="warn hidden"></div>
+  <div class="tabs" id="tabs" role="tablist" aria-label="Chủ đề"></div>
+  <main id="panel"></main>
+</div>
+
+<dialog id="edit" aria-labelledby="edit-title">
+  <form id="edit-form" method="dialog">
+    <h2 id="edit-title">Sửa lá bài</h2>
+    <label class="f" for="e-theme">Chủ đề</label>
+    <select id="e-theme"></select>
+    <label class="f" for="e-text">Câu hỏi / nội dung (chữ)</label>
+    <textarea id="e-text" maxlength="300" placeholder="Nhập câu hỏi cho lá bài này"></textarea>
+    <p class="help" style="margin:6px 0 0">Nếu lá bài có ảnh mặt trước thì ảnh sẽ được hiển thị thay cho chữ.</p>
+    <label class="f" for="e-img">Ảnh mặt trước</label>
+    <div class="cur"><div class="prev" id="e-prev"></div>
+      <div><label class="btn sm" style="cursor:pointer">Chọn ảnh mới<input class="sr" type="file" id="e-img" accept="image/*"></label>
+      <label class="chk"><input type="checkbox" id="e-rm"> Gỡ ảnh (dùng chữ)</label></div></div>
+    <div class="foot">
+      <button type="button" class="btn danger sm" id="e-del">Xóa lá này</button>
+      <span class="btns"><button type="button" class="btn sm ghost" id="e-cancel">Hủy</button><button type="submit" class="btn sm primary" id="e-save">Lưu</button></span>
+    </div>
+  </form>
+</dialog>
+<div id="toast" role="status"></div>
+<script src="store.js"></script>
+<script>
+(async()=>{
+'use strict';
+const {THEMES,themeById,load,save,compress,url,uid}=DeckStore;
+const $=id=>document.getElementById(id);
+function h(tag,props,...kids){
+ const e=document.createElement(tag);
+ for(const[k,v]of Object.entries(props||{})){
+  if(k==='class')e.className=v;
+  else if(k.startsWith('on'))e.addEventListener(k.slice(2),v);
+  else if(k==='style')e.style.cssText=v;
+  else if(v!==false&&v!=null)e.setAttribute(k,v===true?'':v);
+ }
+ for(const kid of kids.flat()){if(kid==null||kid===false)continue;e.append(kid.nodeType?kid:document.createTextNode(kid))}
+ return e;
+}
+let tt;function toast(m){const t=$('toast');t.textContent=m;t.classList.add('show');clearTimeout(tt);tt=setTimeout(()=>t.classList.remove('show'),4500)}
+const data=await load();
+const FIXED_BACKS={deep:'img/DEEP.png',funny:'img/FUNNY.png',friends:'img/FRIENDS.png',challenge:'img/CHALLENGE.png'};
+let tab=(location.hash||'#deep').slice(1);
+if(![...THEMES.map(t=>t.id),'backup'].includes(tab))tab='deep';
+const count=id=>data.cards.filter(c=>c.theme===id).length;
+
+async function commit(msg){
+ try{
+  const ok=await save();
+  if(!ok)toast('Trình duyệt không cho lưu dữ liệu lâu dài (chế độ riêng tư?). Thay đổi chỉ có tác dụng đến khi đóng trang.');
+  else if(msg)toast(msg);
+ }catch(e){console.error(e);toast('Không lưu được: '+(e&&e.message||'bộ nhớ có thể đã đầy.'))}
+ render();
+}
+function head(){
+ const n=data.cards.length,t=$('total');
+ t.textContent='Tổng '+n+' lá';t.classList.toggle('off',n!==60);
+ const w=$('warn');
+ w.classList.toggle('hidden',n===60);
+ w.textContent=n===60?'':('Bộ bài đang có '+n+' lá (mục tiêu 60 lá). Vẫn chơi bình thường, bạn có thể thêm/bớt bất cứ lúc nào.');
+ const tabs=$('tabs');tabs.replaceChildren();
+ for(const t of THEMES)tabs.append(h('button',{class:'tab',role:'tab',type:'button','aria-selected':String(tab===t.id),style:'--c:'+t.color,onclick:()=>go(t.id)},h('i'),t.name,h('small',{},count(t.id))));
+ tabs.append(h('button',{class:'tab',role:'tab',type:'button','aria-selected':String(tab==='backup'),style:'--c:#c9d2ff',onclick:()=>go('backup')},'💾 Sao lưu'));
+}
+function go(id){tab=id;history.replaceState(null,'','#'+id);render()}
+
+function backPreview(t){
+ return h('div',{class:'prev',style:'--c:'+t.color},h('img',{src:FIXED_BACKS[t.id],alt:'Ảnh mặt sau '+t.name}));
+}
+function themePanel(t){
+ const c='--c:'+t.color;
+ const cards=data.cards.filter(x=>x.theme===t.id);
+ const sec1=h('section',{class:'sec',style:c},
+  h('h2',{},'Ảnh mặt sau · '+t.name),
+  h('p',{class:'help'},'Ảnh mặt sau đã được cố định từ thư mục img và sẽ luôn dùng khi chơi.'),
+  h('div',{class:'row'},backPreview(t)));
+
+ const prog=h('p',{class:'prog'});
+ const ta=h('textarea',{id:'bulk',placeholder:'Mỗi dòng là một lá bài. Ví dụ:\nĐiều gì khiến bạn tự hào nhất tuần này?\nKể một kỷ niệm khó quên với nhóm.'});
+ const sec2=h('section',{class:'sec',style:c},
+  h('h2',{},'Thêm lá bài · '+t.name),
+  h('p',{class:'help'},'Chọn một trong hai cách (hoặc dùng cả hai).'),
+  h('label',{class:'drop'},h('strong',{},'🃏 Upload ảnh mặt trước'),h('span',{},'Chọn nhiều ảnh cùng lúc (JPG/PNG/WebP). Mỗi ảnh là một lá bài.'),
+   h('input',{class:'sr',type:'file',accept:'image/*',multiple:true,onchange:async e=>{
+    const files=[...e.target.files];e.target.value='';if(!files.length)return;
+    let ok=0;
+    for(const f of files){
+     prog.textContent='Đang xử lý '+(ok+1)+'/'+files.length+'…';
+     try{data.cards.push({id:uid(),theme:t.id,text:'',img:await compress(f,1100)});ok++}catch(err){toast(err.message)}
+    }
+    prog.textContent='';await commit('Đã thêm '+ok+' lá bài '+t.name+'.');
+   }})),
+  prog,
+  h('label',{class:'f',for:'bulk'},'Hoặc nhập câu hỏi bằng chữ'),ta,
+  h('div',{class:'btns',style:'margin-top:10px'},h('button',{class:'btn primary',type:'button',onclick:()=>{
+   const lines=ta.value.split('\n').map(s=>s.trim()).filter(Boolean);
+   if(!lines.length)return toast('Hãy nhập ít nhất một câu hỏi.');
+   lines.forEach(text=>data.cards.push({id:uid(),theme:t.id,text:text.slice(0,300),img:null}));
+   commit('Đã thêm '+lines.length+' lá bài chữ.');
+  }},'Thêm vào bộ bài')));
+
+ const grid=h('div',{class:'grid'});
+ cards.forEach(cd=>grid.append(h('div',{class:'tile',style:c},
+  h('div',{class:'th'},cd.img?h('img',{src:url(cd.img),alt:cd.text||'Ảnh lá bài',loading:'lazy'}):h('p',{},cd.text||'(trống)')),
+  h('div',{class:'tb'},h('button',{class:'btn sm',type:'button',onclick:()=>openEdit(cd.id)},'Sửa'),
+   h('button',{class:'btn sm danger',type:'button',onclick:()=>{if(confirm('Xóa lá bài này?')){data.cards=data.cards.filter(x=>x.id!==cd.id);commit()}}},'Xóa')))));
+ const sec3=h('section',{class:'sec',style:c},
+  h('div',{class:'list-h'},h('h2',{style:'margin:0'},'Các lá bài ('+cards.length+')'),
+   cards.length>0&&h('button',{class:'btn sm danger',type:'button',onclick:()=>{if(confirm('Xóa tất cả '+cards.length+' lá bài chủ đề '+t.name+'?')){data.cards=data.cards.filter(x=>x.theme!==t.id);commit('Đã xóa.')}}},'Xóa hết chủ đề này')),
+  cards.length?grid:h('p',{class:'empty'},'Chưa có lá bài nào. Hãy thêm ảnh hoặc câu hỏi ở trên.'));
+ return [sec1,sec2,sec3];
+}
+function backupPanel(){
+ const imp=h('input',{class:'sr',type:'file',accept:'.json,application/json',onchange:async e=>{
+  const f=e.target.files[0];e.target.value='';if(!f)return;
+  if(!confirm('Nhập file sẽ thay thế toàn bộ bộ bài hiện tại. Tiếp tục?'))return;
+  try{await DeckStore.importJSON(await f.text());toast('Đã nhập bộ bài.');render()}catch(err){toast(err.message)}
+ }});
+ return h('section',{class:'sec'},
+  h('h2',{},'Sao lưu & khôi phục'),
+  h('p',{class:'help'},'Bộ bài được lưu ngay trong trình duyệt của chiếc điện thoại này. Muốn chuyển sang máy khác hoặc giữ bản dự phòng, hãy xuất ra file JSON rồi nhập lại ở máy kia.'),
+  h('ul',{class:'sum'},THEMES.map(t=>h('li',{style:'--c:'+t.color},h('span',{},h('i'),t.name+' · '+t.sub),h('span',{},count(t.id)+' lá')))),
+  h('div',{class:'btns'},
+   h('button',{class:'btn primary',type:'button',onclick:async()=>{
+    try{const blob=new Blob([await DeckStore.exportJSON()],{type:'application/json'}),a=h('a',{href:URL.createObjectURL(blob),download:'dem-chay-pho-bo-bai.json'});document.body.append(a);a.click();a.remove();toast('Đã xuất file JSON.')}catch(err){toast(err.message)}
+   }},'Xuất JSON'),
+   h('label',{class:'btn'},'Nhập JSON',imp),
+   h('button',{class:'btn danger',type:'button',onclick:async()=>{
+    if(!confirm('Khôi phục bộ 60 câu hỏi mẫu? Toàn bộ ảnh và thay đổi của bạn sẽ bị xóa.'))return;
+    await DeckStore.resetDefaults();toast('Đã khôi phục bộ bài mẫu.');render();
+   }},'Khôi phục bộ mẫu')),
+  !DeckStore.persistent&&h('p',{class:'help',style:'margin-top:12px;color:#ffd37a'},'Trình duyệt đang chặn lưu dữ liệu lâu dài (có thể do chế độ riêng tư).'));
+}
+function render(){
+ head();
+ const p=$('panel');p.replaceChildren();
+ if(tab==='backup')p.append(backupPanel());
+ else p.append(...themePanel(themeById(tab)));
+}
+
+/* Form sửa lá bài */
+let editing=null,newImg=null;
+const dlg=$('edit');
+THEMES.forEach(t=>$('e-theme').append(h('option',{value:t.id},t.name+' · '+t.sub)));
+function drawEditPrev(){
+ const box=$('e-prev'),t=themeById($('e-theme').value);box.style.setProperty('--c',t.color);box.replaceChildren();
+ const blob=$('e-rm').checked?null:(newImg||(editing&&editing.img));
+ box.append(blob?h('img',{src:url(blob),alt:''}):h('span',{},'Chữ'));
+}
+function openEdit(id){
+ editing=data.cards.find(c=>c.id===id);if(!editing)return;
+ newImg=null;
+ $('e-theme').value=editing.theme;$('e-text').value=editing.text||'';$('e-rm').checked=false;$('e-img').value='';
+ drawEditPrev();dlg.showModal();
+}
+$('e-theme').addEventListener('change',drawEditPrev);
+$('e-rm').addEventListener('change',drawEditPrev);
+$('e-img').addEventListener('change',async e=>{
+ const f=e.target.files[0];if(!f)return;
+ try{newImg=await compress(f,1100);$('e-rm').checked=false;drawEditPrev()}catch(err){toast(err.message)}
+});
+$('e-cancel').addEventListener('click',()=>dlg.close());
+$('e-del').addEventListener('click',()=>{
+ if(!editing||!confirm('Xóa lá bài này?'))return;
+ data.cards=data.cards.filter(c=>c.id!==editing.id);dlg.close();commit();
+});
+$('edit-form').addEventListener('submit',e=>{
+ e.preventDefault();
+ if(!editing)return;
+ const text=$('e-text').value.trim().slice(0,300),img=$('e-rm').checked?null:(newImg||editing.img);
+ if(!text&&!img)return toast('Lá bài cần có ảnh hoặc chữ.');
+ editing.theme=$('e-theme').value;editing.text=text;editing.img=img;
+ dlg.close();commit('Đã lưu lá bài.');
+});
+render();
+})();
+</script>
+</body>
+</html>

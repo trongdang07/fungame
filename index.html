@@ -1,0 +1,292 @@
+<!doctype html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#0a0c18">
+<title>ĐÊM CHÁY PHỐ · Bộ bài 60 lá</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@500;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+<style>
+body{display:flex;flex-direction:column;overflow-x:hidden;user-select:none;-webkit-user-select:none}
+.top{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:max(12px,env(safe-area-inset-top)) 16px 4px}
+.logo{margin:0;font:900 18px/1 'Be Vietnam Pro',sans-serif}.logo b{color:var(--accent)}
+.left{color:var(--muted);font-size:13px;font-weight:700}
+.gear{display:grid;place-items:center;width:44px;height:44px;border-radius:12px;border:1px solid var(--line);background:var(--panel);text-decoration:none;font-size:20px}
+.rules-btn{min-height:44px;padding:0 13px;border-radius:12px;border:1px solid var(--line);background:var(--panel);font-weight:800;font-size:13px}
+main{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;padding:0 16px max(16px,env(safe-area-inset-bottom))}
+.stage{--cw:max(150px,min(74vw,320px,calc((100dvh - 300px)*.714)));width:var(--cw);height:calc(var(--cw)*1.4);position:relative;margin:6px 0 4px;--c:#aab}
+.pile,.shuffle{position:absolute;inset:0}
+.shuffle{transform-style:preserve-3d;perspective:900px;pointer-events:none;contain:layout paint}
+.shuffle:before{content:"";position:absolute;width:150%;height:70%;left:-25%;top:25%;border-radius:50%;background:radial-gradient(ellipse,#00f3ff18 0%,#bc13fe0b 35%,transparent 68%);transform:rotateX(62deg)}
+.pile{cursor:pointer;transition:opacity .2s;border-radius:16px}
+.pile.empty{border:2px dashed var(--line);display:grid;place-items:center;color:var(--muted);text-align:center;font-weight:700;padding:16px;cursor:default}
+.cover,.sh{position:absolute;inset:0;border-radius:16px;overflow:hidden}
+.cover{background:linear-gradient(150deg,#262e60,#0d1128);border:1.5px solid #404c92;box-shadow:0 2px 0 #00000055;transform:translate(calc(var(--i)*2px),calc(var(--i)*2.6px))}
+.cover.top:before{content:"";position:absolute;inset:10px;border:1px solid #ffffff24;border-radius:10px;background:radial-gradient(circle at 50% 42%,#ffffff12 0 18%,transparent 19% 100%),linear-gradient(135deg,transparent 35%,#ffffff08 50%,transparent 65%);box-shadow:inset 0 0 35px #8f9cff18}
+.cover.top:after{content:"";position:absolute;width:58%;aspect-ratio:1;border-radius:50%;left:21%;top:22%;border:1px solid #ffffff22;box-shadow:0 0 0 10px #ffffff06,0 0 30px #9aa7ff32;transform:rotate(18deg)}
+.cover .q{position:absolute;inset:0;display:grid;place-items:center;font:900 calc(var(--cw)*.36)/1 'Be Vietnam Pro',sans-serif;color:#ffffffe8;padding-bottom:12%}
+.cover.top .q{z-index:1;inset:27% 27% 31%;padding:0;border:1px solid #ffffff42;border-radius:28%;background:linear-gradient(145deg,#ffffff22,#ffffff08);box-shadow:inset 1px 1px 0 #ffffff40,inset -8px -10px 22px #00000028,0 14px 28px #00000035;color:transparent;background-clip:padding-box;transform:rotate(-6deg)}
+.cover.top .q:after{content:"?";font:900 calc(var(--cw)*.29)/1 'Be Vietnam Pro',sans-serif;background:linear-gradient(145deg,#ffffff,#c6ccff 45%,#7b8cff);-webkit-background-clip:text;background-clip:text;color:transparent;text-shadow:0 4px 18px #7b8cff66;transform:rotate(6deg)}
+.cover .dots{position:absolute;left:0;right:0;bottom:11%;display:flex;justify-content:center;gap:9px}
+.cover .dots i{width:calc(var(--cw)*.06);height:calc(var(--cw)*.06);border-radius:3px;transform:rotate(45deg)}
+.sh{box-shadow:0 3px 10px #0008;border:1px solid #ffffff38;transform-origin:center;will-change:transform;background:linear-gradient(145deg,#ffffff12,#ffffff04),linear-gradient(90deg,#ffffff08 1px,transparent 1px),linear-gradient(#ffffff08 1px,transparent 1px);background-size:auto,20px 20px,20px 20px}
+.sh:after{content:"";position:absolute;inset:0;border-radius:16px;padding:1px;background:linear-gradient(45deg,#00f3ff,#bc13fe);-webkit-mask:linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0);-webkit-mask-composite:xor;mask-composite:exclude;opacity:.65}
+.fill{position:absolute;inset:0}
+.pic,.fpic img{width:100%;height:100%;object-fit:cover;display:block;pointer-events:none}
+.fpic{background:#0b0e1f}.fpic img{object-fit:contain}
+.fb{display:grid;place-items:center;background:repeating-linear-gradient(135deg,var(--c) 0 12px,color-mix(in srgb,var(--c) 75%,#000) 12px 24px)}
+.fb .plate{background:#0b0e1f;color:var(--c);border:2px solid var(--c);border-radius:14px;padding:calc(var(--cw)*.05) calc(var(--cw)*.08);text-align:center}
+.fb .plate b{display:block;font:900 calc(var(--cw)*.11)/1.1 'Be Vietnam Pro',sans-serif}
+.fb .plate span{display:block;margin-top:4px;font-weight:700;font-size:calc(var(--cw)*.05);color:#fff}
+.ft{display:flex;flex-direction:column;padding:7% 8%;gap:6%;background:linear-gradient(180deg,color-mix(in srgb,var(--c) 28%,#0b0e1f),#0b0e1f 55%)}
+.ft .tag{align-self:flex-start;background:var(--c);color:#0b0e1f;font-weight:800;font-size:calc(var(--cw)*.045);padding:.25em .8em;border-radius:99px}
+.ft .q{flex:1;display:grid;place-items:center;text-align:center;font-weight:800;line-height:1.3;overflow-wrap:anywhere}
+#card{position:absolute;inset:0;z-index:20;perspective:1400px}
+#card .inner{position:absolute;inset:0;transform-style:preserve-3d;transition:transform .75s cubic-bezier(.2,.8,.2,1)}
+#card .inner.noanim{transition:none}
+#card.flipped .inner{transform:rotateY(180deg)}
+.face{position:absolute;inset:0;border-radius:16px;overflow:hidden;backface-visibility:hidden;-webkit-backface-visibility:hidden;box-shadow:0 0 0 2px var(--c),0 16px 46px -10px var(--c);background:#0b0e1f}
+.face.fr{transform:rotateY(180deg)}
+#hint{min-height:44px;margin:0;text-align:center;color:var(--muted);font-weight:600;font-size:14px;max-width:320px}
+#hint b{color:var(--c);font-weight:800}
+.actions{display:flex;gap:10px;width:min(100%,360px)}
+.main{flex:1;min-height:56px;font-size:16px;font-weight:800;border:0;border-radius:14px;background:var(--bc,var(--accent));color:#0b0e1f;box-shadow:0 8px 26px -8px var(--bc,var(--accent));transition:transform .15s,background .25s}
+.main:active:not(:disabled){transform:translateY(2px)}
+.main:disabled{opacity:.5}
+.legend{display:flex;flex-wrap:wrap;justify-content:center;gap:8px;margin:2px 0 0;padding:0;list-style:none}
+.legend li{display:flex;align-items:center;gap:6px;font-size:12px;font-weight:700;color:var(--muted);background:var(--panel);border:1px solid var(--line);border-radius:99px;padding:4px 10px}
+.legend i{width:9px;height:9px;border-radius:50%;background:var(--c)}
+.note{color:#6f7aa6;font-size:11px;text-align:center;margin:0}
+dialog.rules{width:min(560px,94vw);max-height:90dvh;border:1px solid #5663b3;border-radius:18px;background:#10152d;color:var(--ink);padding:0;box-shadow:0 20px 70px #000c}
+dialog.rules::backdrop{background:#030612d0;backdrop-filter:blur(5px)}
+.rules-body{padding:22px;overflow:auto}.rules-body h2{margin:0 0 6px;font-size:21px}.rules-body h3{margin:18px 0 6px;font-size:15px;color:#dfe4ff}.rules-body p{margin:0;color:var(--muted);font-size:13px}.rules-body ol{margin:8px 0 0;padding-left:22px;color:var(--muted);font-size:13px}.rules-body li{margin:6px 0}.theme-rules{display:grid;gap:8px;margin-top:8px}.theme-rules div{padding:9px 11px;border:1px solid var(--line);border-left:4px solid var(--c);border-radius:10px;background:#0d1230;font-size:13px}.theme-rules b{display:block;color:var(--ink);margin-bottom:2px}
+.rules-foot{display:flex;justify-content:flex-end;margin-top:20px}
+</style>
+</head>
+<body>
+<header class="top">
+  <h1 class="logo">ĐÊM <b>CHÁY PHỐ</b></h1>
+  <span class="left" id="left" aria-live="polite"></span>
+  <button class="rules-btn" id="rules-open" type="button">📖 Luật chơi</button>
+  <a class="gear" href="setup.html" aria-label="Cài đặt bộ bài" title="Cài đặt">⚙</a>
+</header>
+<main>
+  <div class="stage" id="stage">
+    <div class="pile" id="pile" role="button" tabindex="0" aria-label="Bộ bài"></div>
+    <div class="shuffle" id="shuffle" aria-hidden="true"></div>
+    <div id="card" hidden>
+      <div class="inner" id="inner">
+        <div class="face" id="back"></div>
+        <div class="face fr" id="front"></div>
+      </div>
+    </div>
+  </div>
+  <p id="hint" aria-live="polite"></p>
+  <div class="actions">
+    <button class="main" id="main" type="button" disabled>Đang chuẩn bị…</button>
+    <button class="btn ghost" id="shuf" type="button" title="Xáo lại bộ bài">🔀 Xáo</button>
+  </div>
+  <ul class="legend" id="legend" aria-label="Số lá còn lại theo chủ đề"></ul>
+  <p class="note">Không muốn trả lời? Cứ bỏ qua và rút lá khác nhé.</p>
+</main>
+<dialog class="rules" id="rules" aria-labelledby="rules-title">
+  <div class="rules-body">
+    <h2 id="rules-title">LUẬT CHƠI – PICK A CARD 🃏</h2>
+    <p>Trò chơi gồm 4 bộ bài với 4 chủ đề khác nhau:</p>
+    <div class="theme-rules">
+      <div style="--c:#7b8cff"><b>❤️ DEEP</b>Câu hỏi sâu sắc về cảm xúc, suy nghĩ và bản thân.</div>
+      <div style="--c:#3fd9a0"><b>💙 FRIEND</b>Câu hỏi về tình bạn, kỷ niệm và các mối quan hệ.</div>
+      <div style="--c:#ffb23f"><b>😂 FUNNY</b>Câu hỏi hài hước và những tình huống vui nhộn.</div>
+      <div style="--c:#ff5a73"><b>🔥 CHALLENGE</b>Những thử thách thú vị dành cho người chơi.</div>
+    </div>
+    <h3>Cách chơi</h3>
+    <ol>
+      <li>Người chơi lần lượt theo thứ tự đã thống nhất.</li>
+      <li>Đến lượt, chạm vào bộ bài hoặc nút “Rút một lá”.</li>
+      <li>Chạm vào lá bài để lật và đọc câu hỏi hoặc thử thách.</li>
+      <li>Trả lời hoặc thực hiện thử thách, sau đó bấm “Lá tiếp theo” để chuyển lượt.</li>
+      <li>Nếu không muốn hoặc không thể thực hiện, nhóm có thể tự đặt hình phạt cho người chơi.</li>
+    </ol>
+    <h3>Lưu ý</h3>
+    <p>Lá đã rút sẽ không lặp lại trong cùng một ván. Khi hết bài, chọn “Xáo lại” để bắt đầu vòng mới.</p>
+    <div class="rules-foot"><button class="btn primary" id="rules-close" type="button">Đã hiểu</button></div>
+  </div>
+</dialog>
+<div id="toast" role="status"></div>
+<script src="store.js"></script>
+<script>
+(async()=>{
+'use strict';
+const {THEMES,load,url}=DeckStore;
+const T=Object.fromEntries(THEMES.map(t=>[t.id,t]));
+const $=id=>document.getElementById(id);
+const reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
+const sleep=ms=>new Promise(r=>setTimeout(r,ms));
+const rnd=n=>{const a=new Uint32Array(1);crypto.getRandomValues(a);return a[0]%n};
+const shuffleArr=a=>{for(let i=a.length-1;i>0;i--){const j=rnd(i+1);[a[i],a[j]]=[a[j],a[i]]}return a};
+const vib=ms=>{try{navigator.vibrate&&navigator.vibrate(ms)}catch(e){}};
+const div=(cls,txt)=>{const d=document.createElement('div');d.className=cls||'';if(txt!==undefined)d.textContent=txt;return d};
+
+let data,byId=new Map(),deck=[],cur=null,state='boot';
+try{data=await load()}catch(e){console.error(e);data={cards:[],backs:{}}}
+byId=new Map(data.cards.map(c=>[c.id,c]));
+
+const stage=$('stage'),pile=$('pile'),shuf=$('shuffle'),card=$('card'),inner=$('inner'),main=$('main');
+const rules=$('rules');
+const FIXED_BACKS={deep:'img/DEEP.png',funny:'img/FUNNY.png',friends:'img/FRIENDS.png',challenge:'img/CHALLENGE.png'};
+
+function backNode(id){
+ const t=T[id],box=div('fill');box.style.setProperty('--c',t.color);
+ const fixed=FIXED_BACKS[id];
+ if(fixed){const i=new Image();i.src=fixed;i.alt='';i.draggable=false;i.className='pic';box.append(i)}
+ else{box.classList.add('fb');box.innerHTML='<div class="plate"><b>'+t.name+'</b><span>'+t.sub+'</span></div>'}
+ return box;
+}
+function frontNode(c){
+ const t=T[c.theme],box=div('fill');box.style.setProperty('--c',t.color);
+ if(c.img){box.classList.add('fpic');const i=new Image();i.src=url(c.img);i.alt=c.text||('Lá bài '+t.name);i.draggable=false;box.append(i)}
+ else{
+  box.classList.add('ft');
+  const q=div('q',c.text||''),len=(c.text||'').length;
+  q.style.fontSize='calc(var(--cw)*'+(len<45?.082:len<80?.068:len<130?.056:.048)+')';
+  box.append(div('tag',t.name+' · '+t.sub),q);
+ }
+ return box;
+}
+function paintPile(){
+ const n=deck.length,layers=n===0?0:Math.min(6,Math.ceil(n/10));
+ pile.replaceChildren();
+ pile.classList.toggle('empty',n===0);
+ if(n===0){pile.textContent=state==='none'?'Chưa có lá bài nào':'';return}
+ for(let i=layers-1;i>=0;i--){
+  const l=div('cover'+(i===0?' top':''));l.style.setProperty('--i',i);l.style.zIndex=10-i;
+  if(i===0){
+   const q=div('q','?'),d=div('dots');
+   THEMES.forEach(t=>{const s=document.createElement('i');s.style.background=t.color;d.append(s)});
+   l.append(q,d);
+  }
+  pile.append(l);
+ }
+}
+function legend(){
+ const cnt={};THEMES.forEach(t=>cnt[t.id]=0);
+ deck.forEach(id=>{const c=byId.get(id);if(c)cnt[c.theme]++});
+ const ul=$('legend');ul.replaceChildren();
+ THEMES.forEach(t=>{const li=document.createElement('li'),i=document.createElement('i');i.style.setProperty('--c',t.color);li.append(i,t.name+' '+cnt[t.id]);ul.append(li)});
+ $('left').textContent=data.cards.length?('Còn '+deck.length+'/'+data.cards.length+' lá'):'';
+}
+function ui(){
+ const t=cur&&T[cur.theme];
+ let label='',hint='',dis=false,bc='';
+ switch(state){
+  case 'boot':label='Đang chuẩn bị…';dis=true;break;
+  case 'none':label='Thêm lá bài';hint='Bộ bài đang trống. Vào Cài đặt để thêm lá bài.';break;
+  case 'shuffling':label='Đang xáo bài…';hint='Xáo xáo xáo…';dis=true;break;
+  case 'ready':label='Rút một lá';hint='Chạm vào bộ bài để rút ngẫu nhiên.';break;
+  case 'drawing':label='Rút bài…';dis=true;break;
+  case 'back':label='Lật bài';hint='Lá bài chủ đề <b>'+t.name+'</b>. Chạm để xem câu hỏi.';bc=t.color;break;
+  case 'flipping':label='Lật bài';dis=true;bc=t.color;break;
+  case 'front':label=deck.length?'Lá tiếp theo':'Hết bài – Xáo lại';hint='Đọc to rồi trả lời nhé! <b>'+t.name+' · '+t.sub+'</b>';bc=t.color;break;
+  case 'leaving':label='…';dis=true;break;
+  case 'empty':label='Xáo bài vòng mới';hint='Hết '+data.cards.length+' lá rồi! Xáo lại để chơi vòng mới.';break;
+ }
+ main.textContent=label;main.disabled=dis;
+ main.style.setProperty('--bc',bc||'var(--accent)');
+ $('hint').innerHTML=hint;
+ if(t)stage.style.setProperty('--c',t.color);
+ $('shuf').disabled=['boot','shuffling','drawing','flipping','leaving','none'].includes(state);
+}
+
+async function shuffle(){
+ if(['shuffling','drawing','flipping','leaving'].includes(state))return;
+ if(!data.cards.length){state='none';deck=[];paintPile();legend();ui();return}
+ card.hidden=true;cur=null;
+ deck=shuffleArr((deck.length?deck:data.cards.map(c=>c.id)).slice());
+ state='shuffling';legend();ui();paintPile();
+ pile.style.opacity=0;shuf.replaceChildren();
+ const n=Math.min(12,Math.max(6,deck.length)),els=[];
+ for(let i=0;i<n;i++){const e=div('sh');e.append(backNode(THEMES[rnd(THEMES.length)].id));e.style.zIndex=i;shuf.append(e);els.push(e)}
+ vib([18,30,18,30,18]);
+ if(reduce)await sleep(250);
+ else{
+  const radius=Math.min(150,Math.max(92,parseFloat(getComputedStyle(stage).width)*.72));
+  await Promise.all(els.map((e,i)=>{
+   const angle=(i/n)*Math.PI*2, x=Math.cos(angle)*radius, y=Math.sin(angle)*radius;
+   const rot=(angle*180/Math.PI)+90;
+   e.style.boxShadow='0 0 18px #00f3ff66';
+   return e.animate([
+    {transform:'translate3d(0,0,0) rotateX(0deg) rotateY(0deg) rotateZ(0deg)',offset:0},
+    {transform:'translate3d('+x+'px,'+y+'px,120px) rotateX(360deg) rotateY(180deg) rotateZ('+rot+'deg)',offset:.55},
+    {transform:'translate3d('+x+'px,'+y+'px,120px) rotateX(720deg) rotateY(360deg) rotateZ('+rot+'deg)',offset:.72},
+    {transform:'translate3d(0,0,0) rotateX(0deg) rotateY(0deg) rotateZ(0deg)',offset:1}
+   ],{duration:1400,delay:i*42,easing:'cubic-bezier(.175,.885,.32,1.275)',fill:'both'}).finished.then(()=>{e.style.boxShadow='0 3px 10px #0008'});
+  }));
+ }
+ shuf.replaceChildren();pile.style.opacity=1;
+ if(!reduce)pile.animate([{transform:'scale(1)'},{transform:'scale(1.045)'},{transform:'scale(1)'}],{duration:240});
+ state='ready';ui();
+}
+async function draw(){
+ if(state!=='ready'||!deck.length)return;
+ cur=byId.get(deck.pop());
+ if(!cur){return draw()}
+ state='drawing';
+ const t=T[cur.theme];
+ $('back').replaceChildren(backNode(cur.theme));
+ $('front').replaceChildren(frontNode(cur));
+ card.style.setProperty('--c',t.color);
+ inner.classList.add('noanim');card.classList.remove('flipped');void inner.offsetWidth;inner.classList.remove('noanim');
+ card.getAnimations().forEach(a=>a.cancel());
+ card.hidden=false;paintPile();legend();ui();vib(15);
+ if(!reduce)await card.animate([
+  {transform:'translate(0,2%) scale(.97)',opacity:.4,offset:0},
+  {transform:'translate(0,-14%) scale(1.05) rotate(-2.5deg)',opacity:1,offset:.45},
+  {transform:'translate(0,0) scale(1) rotate(0deg)',opacity:1,offset:1}
+ ],{duration:520,easing:'cubic-bezier(.2,.8,.2,1)'}).finished;
+ state='back';ui();
+}
+async function flip(){
+ if(state!=='back')return;
+ state='flipping';ui();card.classList.add('flipped');vib(10);
+ await sleep(reduce?50:720);
+ state='front';ui();
+}
+async function next(){
+ if(state!=='front')return;
+ state='leaving';ui();
+ if(!reduce)await card.animate([
+  {transform:'translate(0,0) rotate(0deg)',opacity:1},
+  {transform:'translate(125%,-8%) rotate(16deg)',opacity:0}
+ ],{duration:380,easing:'ease-in',fill:'forwards'}).finished;
+ card.getAnimations().forEach(a=>a.cancel());
+ card.hidden=true;cur=null;
+ state=deck.length?'ready':'empty';
+ paintPile();legend();ui();
+}
+function act(){
+ if(state==='ready')draw();
+ else if(state==='back')flip();
+ else if(state==='front'){deck.length?next():(next().then(()=>shuffle()))}
+ else if(state==='empty')shuffle();
+ else if(state==='none')location.href='setup.html';
+}
+main.addEventListener('click',act);
+$('shuf').addEventListener('click',shuffle);
+$('rules-open').addEventListener('click',()=>rules.showModal());
+$('rules-close').addEventListener('click',()=>rules.close());
+rules.addEventListener('click',e=>{if(e.target===rules)rules.close()});
+function stageTap(){if(state==='ready')draw();else if(state==='back')flip();else if(state==='empty')shuffle()}
+pile.addEventListener('click',stageTap);
+pile.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();stageTap()}});
+card.addEventListener('click',stageTap);
+
+paintPile();legend();ui();
+if(!data.cards.length){state='none';ui();return}
+shuffle();
+})();
+</script>
+</body>
+</html>
